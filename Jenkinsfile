@@ -12,22 +12,11 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    echo "👉 Checking current Kubernetes context..."
-                    kubectl config current-context
-
-                    echo "📂 Moving to deployment directory..."
+                    echo "Applying Kubernetes YAML to Minikube..."
                     cd deployment-manifest
-
-                    echo "🚀 Applying Deployment YAML..."
-                    kubectl apply -f deployment.yaml --validate=false
-
-                    echo "🌐 Applying Service YAML..."
-                    kubectl apply -f service.yaml --validate=false
-
-                    echo "🔍 Getting pods..."
+                    kubectl apply -f deployment.yaml
+                    kubectl apply -f service.yaml
                     kubectl get pods
-
-                    echo "✅ Deployment complete."
                     '''
                 }
             }

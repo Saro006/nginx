@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Only if this is from Git
                 checkout scm
             }
         }
@@ -13,11 +12,22 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    echo "Applying Kubernetes YAML to Minikube..."
+                    echo "👉 Checking current Kubernetes context..."
+                    kubectl config current-context
+
+                    echo "📂 Moving to deployment directory..."
                     cd deployment-manifest
-                    kubectl apply -f deployment.yaml
-                    kubectl apply -f service.yaml
+
+                    echo "🚀 Applying Deployment YAML..."
+                    kubectl apply -f deployment.yaml --validate=false
+
+                    echo "🌐 Applying Service YAML..."
+                    kubectl apply -f service.yaml --validate=false
+
+                    echo "🔍 Getting pods..."
                     kubectl get pods
+
+                    echo "✅ Deployment complete."
                     '''
                 }
             }

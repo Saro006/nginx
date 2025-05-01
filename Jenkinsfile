@@ -14,7 +14,7 @@ pipeline {
                 script {
                     sh '''
                     echo "Applying Kubernetes YAML to Minikube..."
-                    kubectl apply -f nginx-deployment.yaml
+                    kubectl apply -f deployment-manifest
                     kubectl get pods
                     '''
                 }
